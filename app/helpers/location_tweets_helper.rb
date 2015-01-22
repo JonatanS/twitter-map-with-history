@@ -1,0 +1,2 @@
+module LocationTweetsHelper
+end

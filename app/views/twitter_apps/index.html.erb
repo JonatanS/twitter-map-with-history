@@ -1,0 +1,141 @@
+<!--Pseudo Code:
+when typing address, 
+  - autocomplete from DB (if city already exists)
+when pressing submit:
+  - check to see whether city exists (by address/ name)
+    - if yes: grab lat/ lon from DB
+    - if no: grab lat/ lon from Geocoder and add to DB. 
+  - Then start Twitter process.
+-->
+  
+<h1> What and Where?</h1>
+
+<!--search field form to feed twitter_apps:-->
+<form action= 'twitter_apps' method='GET' >
+	<fieldset id = 'input-fieldset'>
+
+    <div>
+  	Address to search:
+  	<input type="text" value='<%="#{@city_to_lookup}"%>' name="lookup" >
+
+  	</div>
+
+    <div>
+    Radius:
+    <input type="text" value='<%="#{@radius}"%>' name="radius" >
+    </div>
+    <!--
+    <div>
+      Search Radius (miles):
+      <span id="slider"></span>
+
+      <input type="number" value'<%="#{@radius}"%>'id="radius" name="radius" maxlength="4" readonly style="border:0; color:#F90B6D; width:65px;">
+
+      <script>
+
+        $(function() {
+          $( "#slider" ).slider({
+            value: 100,
+            slide: function( event, ui ) {
+              $( "#radius" ).val(ui.value );
+              @radius = ui.value;
+            }
+          });
+          $( "#radius" ).val( $( "#slider" ).slider( "value" ));
+        });
+      </script>
+    </div>
+  -->
+
+  	<div>
+  	 Keyword to search for:
+  	 <input type="text" value'<%="#{@topic}"%>' name="keyword">
+    </div>
+    <br>
+    <div>
+      Optional Date Range:
+      <class="texthover" title="Twitter only allows for searches up to 7 days ago." ><label for="from">from</label>
+      <input type="text" id="from" name="from">
+      <label for="to">to</label>
+      <input type="text" id="to" name="to">
+      <br>
+      <input type="submit" value="Submit">
+    </div>
+  </fieldset>
+</form>
+
+  <script> 
+  ////TODO:
+  //populate google map here
+    var twitterResponse = [];
+
+    $.getJSON('<%= get_tweets_path %>', function(data) // Variable data contains the data we get from serverside
+    {
+      twitterResponse = data;
+
+      if(twitterResponse.count <2){
+        alert("No tweets found!");
+      }
+      else
+      {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+
+        //call initializeMap here
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' + 'libraries=places,visualization&'+'callback=initializeMap';
+        document.body.appendChild(script);
+
+        // //TODO: populate image reel div
+        // // creates a <table> element and a <tbody> element
+        // var imgReel = document.createElement( 'div' );
+        // imgReel.className = "image-reel";
+        // imgReel.id  = "image-reel";
+        // for(i = 1; i < twitterResponse.length; i++)
+        // {
+
+        //   if(twitterResponse[i].image_url.toString()!="")
+        //   {
+        //     imgReel.append('<div class="image"><img src="' + twitterResponse[i].image_url + '""></img></div>');
+        //   }
+        // } 
+      }
+    });
+    </script>
+
+<div id="map-container">
+  <div id="map-canvas"></div>
+</div>
+
+<div id="image-reel"></div>
+
+
+<!--DISPLAY IMAGES DYNAMICALLY IN IMAGE-REEL DIV-->
+<br>
+<br>
+<script>
+  // var body = document.getElementsByTagName("body")[0];
+  // var divToAppend = document.getElementById("image-reel");
+  // body.appendChild(divToAppend);
+</script>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('.image-reel').slick({
+          infinite: true,
+          slidesToShow: 5,
+          slidesToScroll: 1,
+          variableWidth: true,
+          autoplay: true,
+          arrows: false
+      });
+  });
+</script>
+
+<!--DISPLAY TWEETS-->
+<br>
+<br>
+
+
+
+<p>the end</p>
