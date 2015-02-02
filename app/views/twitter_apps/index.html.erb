@@ -17,14 +17,13 @@ when pressing submit:
     <div>
   	Address to search:
   	<input type="text" value='<%="#{@city_to_lookup}"%>' name="lookup" >
-
   	</div>
 
     <div>
     Radius:
     <input type="text" value='<%="#{@radius}"%>' name="radius" >
     </div>
-    <!--
+    
     <div>
       Search Radius (miles):
       <span id="slider"></span>
@@ -38,17 +37,17 @@ when pressing submit:
             value: 100,
             slide: function( event, ui ) {
               $( "#radius" ).val(ui.value );
-              @radius = ui.value;
+              //@radius = ui.value;
             }
           });
           $( "#radius" ).val( $( "#slider" ).slider( "value" ));
         });
       </script>
     </div>
-  -->
+  
 
   	<div>
-  	 Keyword to search for:
+  	 Search Phrase:
   	 <input type="text" value'<%="#{@topic}"%>' name="keyword">
     </div>
     <br>
@@ -64,78 +63,101 @@ when pressing submit:
   </fieldset>
 </form>
 
-  <script> 
-  ////TODO:
-  //populate google map here
-    var twitterResponse = [];
-
-    $.getJSON('<%= get_tweets_path %>', function(data) // Variable data contains the data we get from serverside
-    {
-      twitterResponse = data;
-
-      if(twitterResponse.count <2){
-        alert("No tweets found!");
-      }
-      else
-      {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-
-        //call initializeMap here
-        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' + 'libraries=places,visualization&'+'callback=initializeMap';
-        document.body.appendChild(script);
-
-        // //TODO: populate image reel div
-        // // creates a <table> element and a <tbody> element
-        // var imgReel = document.createElement( 'div' );
-        // imgReel.className = "image-reel";
-        // imgReel.id  = "image-reel";
-        // for(i = 1; i < twitterResponse.length; i++)
-        // {
-
-        //   if(twitterResponse[i].image_url.toString()!="")
-        //   {
-        //     imgReel.append('<div class="image"><img src="' + twitterResponse[i].image_url + '""></img></div>');
-        //   }
-        // } 
-      }
-    });
-    </script>
-
 <div id="map-container">
   <div id="map-canvas"></div>
 </div>
 
 <div id="image-reel"></div>
 
-
-<!--DISPLAY IMAGES DYNAMICALLY IN IMAGE-REEL DIV-->
-<br>
-<br>
-<script>
-  // var body = document.getElementsByTagName("body")[0];
-  // var divToAppend = document.getElementById("image-reel");
-  // body.appendChild(divToAppend);
-</script>
-
+<div id ="table" style="height:200px;overflow:auto;">
+<table id="tweets-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Tweet Message</th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+    <!--<tbody id = "table-body">
+    </tbody>-->
+  </table>
+</div>
 
 <script type="text/javascript">
-  $(document).ready(function(){
-      $('.image-reel').slick({
-          infinite: true,
-          slidesToShow: 5,
-          slidesToScroll: 1,
-          variableWidth: true,
-          autoplay: true,
-          arrows: false
-      });
-  });
-</script>
+////TODO:
+//populate google map here
 
-<!--DISPLAY TWEETS-->
-<br>
-<br>
 
+
+var twitterResponse = [];
+
+$.getJSON('<%= get_tweets_path %>', function(data) // Variable data contains the data we get from serverside
+{
+  twitterResponse = data;
+
+  if(twitterResponse.count <2){
+    alert("No tweets found!");
+  }
+  else
+  {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+
+    //call initializeMap here
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' + 'libraries=places,visualization&'+'callback=initializeMap';
+    document.body.appendChild(script);
+
+    // //TODO: populate image reel div
+
+    var imgReel = document.getElementById('image-reel');
+    var table = document.getElementById('table');
+    var tableBody = document.createElement('TBODY');
+    table.border = '1';
+    table.appendChild(tableBody);
+
+    for(i = 1; i < twitterResponse.length; i++)
+    {
+      //collect images
+      if(twitterResponse[i].image_url.toString()!="")
+      {
+        //imgReel.append('<div class="image"><img src="' + twitterResponse[i].image_url + '""></img></div>');
+        var elem = document.createElement("img");
+        elem.src = twitterResponse[i].image_url;
+        elem.className = "image";
+        imgReel.appendChild(elem);
+      }
+
+      //build table with tweet info. Use two-color scheme
+      var tr = document.createElement('TR');
+      if(i % 2 == 0){ tr.className = "even";}
+      else{ tr.className = "odd"; }
+
+        var td = document.createElement('TD');
+        //ID
+        td.appendChild(document.createTextNode(i.toString()));
+        tr.appendChild(td);
+        //Latitude 
+        td = document.createElement('TD');
+        td.appendChild(document.createTextNode(twitterResponse[i].latitute));
+        tr.appendChild(td);
+        //Longitude 
+        td = document.createElement('TD');
+        td.appendChild(document.createTextNode(twitterResponse[i].longitude));
+        tr.appendChild(td);
+        //message 
+        td = document.createElement('TD');
+        td.appendChild(document.createTextNode(twitterResponse[i].message));
+        tr.appendChild(td);
+      
+        tableBody.appendChild(tr);
+      } 
+    }
+  }); //end of twitterResponse collection
+
+
+  </script>
 
 
 <p>the end</p>
