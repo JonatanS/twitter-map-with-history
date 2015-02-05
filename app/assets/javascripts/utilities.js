@@ -30,7 +30,7 @@ $(function() {
 		max: 2000,
 		step: 10,
 		//value: gon.radius
-		value: 100
+		//value: 100
 	});
 });
 

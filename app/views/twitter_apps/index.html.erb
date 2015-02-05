@@ -1,12 +1,3 @@
-<!--Pseudo Code:
-when typing address, 
-  - autocomplete from DB (if city already exists)
-when pressing submit:
-  - check to see whether city exists (by address/ name)
-    - if yes: grab lat/ lon from DB
-    - if no: grab lat/ lon from Geocoder and add to DB. 
-  - Then start Twitter process.
--->
   
 <h1> What and Where?</h1>
 
@@ -25,25 +16,24 @@ when pressing submit:
 
     <div>
     Radius:
-    <input type="text" value='<%="#{@radius}"%>' name="radius" >
+    <input type="number" value'<%="#{@radius}"%>' id="radius" name="radius" maxlength="10" readonly style="border:0;  width:65px;">
     </div>
     
     <div>
       Search Radius (miles):
       <span id="slider"></span>
-
-      <input type="number" value'<%="#{@radius}"%>'id="radius" name="radius" maxlength="4" readonly style="border:0; color:#F90B6D; width:65px;">
-
       <script>
 
         $(function() {
           $( "#slider" ).slider({
-            value: 100,
+            value: <%="#{@radius}"%>,
             slide: function( event, ui ) {
-              $( "#radius" ).val(ui.value );
-              //@radius = ui.value;
+              $( "#radius" ).val(ui.value);
+              //$( "#radius" ).val( $( "#slider" ).slider( "value" ));
+              // @radius = ui.value;
             }
           });
+
           $( "#radius" ).val( $( "#slider" ).slider( "value" ));
         });
       </script>

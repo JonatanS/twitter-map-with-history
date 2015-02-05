@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # get 'location_tweets/get_tweets'
   #get 'twitter_apps/index'
 
