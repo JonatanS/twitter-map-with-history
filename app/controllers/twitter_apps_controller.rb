@@ -12,8 +12,6 @@ class TwitterAppsController < ApplicationController
       @radius = '200'
     end
 
-    #gon.radius = @radius
-
     @topics = params[:keyword]
     #@city_name = params[:loc]
     if @topics == nil
@@ -28,13 +26,14 @@ class TwitterAppsController < ApplicationController
       @topics = @topics + " until:" + @to_date
     end
 
-    @city_to_lookup = params[:lookup]
+    @city_to_lookup = params[:address]
+    # binding.pry
     if @city_to_lookup == nil 
       @city_to_lookup = "New York, NY" 
     end
 
     @city_found = true
-binding.pry
+
     #use geocoder to add city
     #@my_city = City.new({ :address => @city_to_lookup })
     s = Geocoder.search("#{@city_to_lookup}")
@@ -50,7 +49,7 @@ binding.pry
     else
       @city_found = false
     end
-    #@twitter_display = []
+
     # if @city_found then
     #   ##initLocation is used to center the map (and specify zoom level based on radius)
     #   initLocation = Location_Tweet.new("",@my_city.latitude,@my_city.longitude,"",@radius,"","")
@@ -63,8 +62,6 @@ binding.pry
 
 
   def get_tweets
-
-
     @arr_tweets = []
 
     # grab incoming params
@@ -73,19 +70,13 @@ binding.pry
     @lon = params[:lon]
     @radius = params[:radius]
 
-    # if city.nil? then
-
-    # end
-binding.pry
     ##initLocation is used to center the map (and specify zoom level based on radius)
     initLocation = Location_Tweet.new("",@lat,@lon,"",@radius,"","")
     @arr_tweets<<initLocation
 
-    
-
     #@twitter_streaming_client = Twitter::Streaming::Client.new(TWITTER_CONFIG)
     @twitter_rest_client = Twitter::REST::Client.new(TWITTER_CONFIG)    
-    binding.pry
+
     @twitter_rest_client.search(@topics, result_type: "recent", geocode: "#{@lat },#{@lon},#{@radius}mi").take(100).each do |tweet|
 
         if (tweet.geo?) then

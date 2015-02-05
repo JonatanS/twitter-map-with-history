@@ -17,6 +17,11 @@ class Location_Tweet
 		self.image_url = img_url
 	end
 
+	def getAddress
+		# use geocoder to get address
+		s = Geocoder.search("#{self.latitute}, #{self.longitude}")
+        self.address = s[0].address
+	end
 	# def persisted?
 	# 	false
 	# end

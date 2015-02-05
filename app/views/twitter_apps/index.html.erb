@@ -11,7 +11,7 @@ when pressing submit:
 <h1> What and Where?</h1>
 
 <!--search field form to feed twitter_apps:-->
-<form action= 'tweets_as_json' method='GET' >
+<form action= 'twitter_apps' method='GET' >
 	<fieldset id = 'input-fieldset'>
     <div>
      Search Phrase:
@@ -73,8 +73,8 @@ when pressing submit:
   <thead>
     <tr>
       <th>#</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
+      <th>Location</th>
+      <th>Address</th>
       <th>Tweet Message</th>
       <th colspan="5"></th>
     </tr>
@@ -89,9 +89,8 @@ when pressing submit:
 //populate google map here
 
 
-
 var twitterResponse = [];
-<% binding.pry %>
+<%# binding.pry %>
 <%#//= link_to 'Send Thanks', new_invoice_email_path(@invoice, :type => "thanks") %>
 $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longitude,
  :topic => @topics, :radius => @radius) %>', function(data) // Variable data contains the data we get from serverside
@@ -139,13 +138,18 @@ $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longi
         //ID
         td.appendChild(document.createTextNode(i.toString()));
         tr.appendChild(td);
-        //Latitude 
+        
+        //Location
+        var link = document.createElement("A");
+        link.setAttribute('href','http://maps.google.com/?q=' + twitterResponse[i].latitute+ ',' + twitterResponse[i].longitude);
+        link.setAttribute('target','_blank')
+        link.text='open map'; 
         td = document.createElement('TD');
-        td.appendChild(document.createTextNode(twitterResponse[i].latitute));
+        td.appendChild(link);
         tr.appendChild(td);
         //Longitude 
         td = document.createElement('TD');
-        td.appendChild(document.createTextNode(twitterResponse[i].longitude));
+        td.appendChild(document.createTextNode(twitterResponse[i].latitute+','+twitterResponse[i].longitude));
         tr.appendChild(td);
         //message 
         td = document.createElement('TD');
@@ -160,5 +164,3 @@ $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longi
 
   </script>
 
-
-<p>the end</p>
