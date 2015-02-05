@@ -1,16 +1,19 @@
 Rails.application.routes.draw do
-  get 'location_tweets/get_tweets'
-  get 'twitter_apps/index'
+  # get 'location_tweets/get_tweets'
+  #get 'twitter_apps/index'
 
   get 'twitter_apps/history'
 
   resources :search_histories
-  
+  # resources :twitter_apps
+  # resources :location_tweets do
+  #   
+  # end
 
   get 'twitter_apps/(:id)' => 'twitter_apps#index'#, as: :twitter_apps
 
-  
-  get 'tweets_as_json', to: 'location_tweets#get_tweets', as: :get_tweets
+  # get 'tweets_as_json/:lat,:lon,:topic,:radius', to: 'twitter_apps#get_tweets', as: :get_tweets
+  get 'tweets_as_json/(:id)', to: 'twitter_apps#get_tweets', as: :get_tweets
 
   root to: 'twitter_apps#index'
 
