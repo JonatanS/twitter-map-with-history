@@ -52,7 +52,9 @@ h1 {
     padding: 3px 7px 2px 7px;
     /*font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;*/
     width: 90%;
-    border-collapse: collapse;
+    /*border-collapse: collapse;*/
+    border-spacing: 10px;
+    border-collapse: separate;
 }
 
 /*Table Header:*/

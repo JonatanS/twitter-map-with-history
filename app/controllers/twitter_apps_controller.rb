@@ -8,14 +8,15 @@ class TwitterAppsController < ApplicationController
 
     @radius = params[:radius]
 
+    # binding.pry
     if @radius == nil || @radius == "" then 
-      @radius = '200'
+      signed_in? ? @radius = SearchHistory.last.radius : @radius = '200'
     end
 
     @topics = params[:keyword]
     #@city_name = params[:loc]
     if @topics == nil
-      @topics = "coffee OR lunch"
+      signed_in? ? @topics = SearchHistory.last.searchstring : @topics = "coffee OR lunch"
     end
 
     if @from_date!="" && @from_date!=nil then
@@ -29,7 +30,7 @@ class TwitterAppsController < ApplicationController
     @city_to_lookup = params[:address]
     # binding.pry
     if @city_to_lookup == nil 
-      @city_to_lookup = "New York, NY" 
+      signed_in? ? @city_to_lookup = SearchHistory.last.address : @city_to_lookup = "New York, NY" 
     end
 
     @city_found = true
@@ -50,15 +51,17 @@ class TwitterAppsController < ApplicationController
       @city_found = false
     end
 
-    # if @city_found then
-    #   ##initLocation is used to center the map (and specify zoom level based on radius)
-    #   initLocation = Location_Tweet.new("",@my_city.latitude,@my_city.longitude,"",@radius,"","")
-    #   @arr_tweets<<initLocation
 
-    #   binding.pry
-    # end
+    #if user is logged in: save search history
+    if signed_in? then
+      h = SearchHistory.new
+      h.searchstring = @topics
+      h.address = @city_to_lookup
+      h.radius = @radius
+      h.user = current_user
+      h.save
+    end
   end
-
 
 
   def get_tweets
@@ -89,13 +92,17 @@ class TwitterAppsController < ApplicationController
     end
     #@twitter_display = @arr_tweets
 
-    puts "done initializing\n\n\n\n\n\n\n\n"
+    # add result stats to history
+    if signed_in? then
+      h = SearchHistory.last
+      h.num_results = @arr_tweets.size - 1
+      # h.num_images = @arr_tweets.select {|a| a.image_url != ""}.count
+      h.save
+      puts "saved tweet count to search history: #{@arr_tweets.size - 1}"
+    end
 
     render :json => @arr_tweets
 
-  end
-
-  def history
   end
 
 

@@ -62,11 +62,11 @@
 <table id="tweets-table">
   <thead>
     <tr>
-      <th>#</th>
-      <th>Location</th>
-      <th>Address</th>
+      <th WIDTH = "30">#</th>
+      <th WIDTH = "80">Location</th>
+      <th WIDTH = "200">Address</th>
       <th>Tweet Message</th>
-      <th colspan="5"></th>
+      <th colspan="20"></th>
     </tr>
   </thead>
     <!--<tbody id = "table-body">
@@ -127,6 +127,7 @@ $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longi
         var td = document.createElement('TD');
         //ID
         td.appendChild(document.createTextNode(i.toString()));
+        td.setAttribute('WIDTH', '30')
         tr.appendChild(td);
         
         //Location
@@ -136,10 +137,12 @@ $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longi
         link.text='open map'; 
         td = document.createElement('TD');
         td.appendChild(link);
+        td.setAttribute('WIDTH', '80')
         tr.appendChild(td);
         //Longitude 
         td = document.createElement('TD');
         td.appendChild(document.createTextNode(twitterResponse[i].latitute+','+twitterResponse[i].longitude));
+        td.setAttribute('WIDTH', '200')
         tr.appendChild(td);
         //message 
         td = document.createElement('TD');

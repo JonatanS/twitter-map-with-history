@@ -1,2 +1,26 @@
-<h1>SearchHistory#index</h1>
-<p>Find me in app/views/search_histories/index.html.erb</p>
+<h1>My Search History</h1>
+
+<table>
+	<thead>
+		<tr>Last Search Date</tr>
+		<tr>Search Term</tr>
+		<tr>Address</tr>
+		<tr>Radius</tr>
+		<tr># Results</tr>
+		<tr>Repeat Search</tr>
+	</thead>
+
+	<tbody>
+		<%@search_histories.each do |h| %>
+			<tr>
+				<td><%= h.updated_at%></td>
+				<td><%= h.searchstring%></td>
+				<td><%= h.address%></td>
+				<td><%= h.radius%></td>
+				<td><%= h.num_results%></td>
+				<td><%= link_to "Search This", twitter_apps_path(:keyword => h.searchstring, :address => h.address, :radius => h.radius)%></td>
+			</tr>
+		<% end %>
+
+	</tbody>
+</table>
