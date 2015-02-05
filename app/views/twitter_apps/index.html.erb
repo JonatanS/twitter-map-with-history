@@ -11,12 +11,16 @@ when pressing submit:
 <h1> What and Where?</h1>
 
 <!--search field form to feed twitter_apps:-->
-<form action= 'twitter_apps' method='GET' >
+<form action= 'tweets_as_json' method='GET' >
 	<fieldset id = 'input-fieldset'>
+    <div>
+     Search Phrase:
+     <input type="text" value='<%="#{@topics}"%>' name="keyword">
+    </div>
 
     <div>
   	Address to search:
-  	<input type="text" value='<%="#{@city_to_lookup}"%>' name="lookup" >
+  	<input type="text" value='<%="#{@city_to_lookup}"%>' name="address" >
   	</div>
 
     <div>
@@ -45,11 +49,6 @@ when pressing submit:
       </script>
     </div>
   
-
-  	<div>
-  	 Search Phrase:
-  	 <input type="text" value'<%="#{@topic}"%>' name="keyword">
-    </div>
     <br>
     <div>
       Optional Date Range:
@@ -92,8 +91,10 @@ when pressing submit:
 
 
 var twitterResponse = [];
-
-$.getJSON('<%= get_tweets_path %>', function(data) // Variable data contains the data we get from serverside
+<% binding.pry %>
+<%#//= link_to 'Send Thanks', new_invoice_email_path(@invoice, :type => "thanks") %>
+$.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longitude,
+ :topic => @topics, :radius => @radius) %>', function(data) // Variable data contains the data we get from serverside
 {
   twitterResponse = data;
 
