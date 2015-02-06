@@ -35,12 +35,12 @@ $(function() {
 });
 
 $(document).ready(function(){
-	$('.image-reel').slick({
-		infinite: true,
-		slidesToShow: 3,
-		slidesToScroll: 1,
-		variableWidth: true,
-		autoplay: true,
-		arrows: true
-	});
+	// $('.image-reel').slick({
+	// 	infinite: true,
+	// 	slidesToShow: 3,
+	// 	slidesToScroll: 1,
+	// 	variableWidth: true,
+	// 	autoplay: true,
+	// 	arrows: true
+	// });
 });
