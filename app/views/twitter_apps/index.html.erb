@@ -91,21 +91,21 @@
 
 <div id="image-reel"></div>
 
-<div id ="table" style="height:200px;overflow:auto;">
-<table id="tweets-table">
-  <thead>
-    <tr>
-      <th WIDTH = "30">#</th>
-      <th WIDTH = "80">Location</th>
-      <th WIDTH = "200">Address</th>
-      <th>Tweet Message</th>
-      <th colspan="20"></th>
-    </tr>
-  </thead>
-    <!--<tbody id = "table-body">
-    </tbody>-->
+<!-- <div id ="table" style="height:200px;overflow:auto;width:100%"> -->
+  <table id="tweets-table">
+    <thead id = "table-head">
+      <tr>
+        <th WIDTH = "30">#</th>
+        <th WIDTH = "80">Location</th>
+        <th WIDTH = "200">Address</th>
+        <th>Tweet Message</th>
+        <th colspan="20"></th>
+      </tr>
+    </thead>
+    <tbody id = "table-body">
+    </tbody>
   </table>
-</div>
+<!-- </div> -->
 
 <script type="text/javascript">
 ////TODO:
@@ -135,10 +135,8 @@ $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longi
     // //TODO: populate image reel div
 
     var imgReel = document.getElementById('image-reel');
-    var table = document.getElementById('table');
-    var tableBody = document.createElement('TBODY');
-    table.border = '1';
-    table.appendChild(tableBody);
+
+    var tableBody = document.getElementById('table-body');
 
     for(i = 1; i < twitterResponse.length; i++)
     {
