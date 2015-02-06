@@ -39,8 +39,6 @@ gem 'twitter'
 
 gem 'pry-rails', group: :development
 
-gem 'gon'	#send varibales between rb and js
-
 gem 'geocoder'
 
 gem 'jquery-slick-rails', '~> 1.3.15'
