@@ -9,6 +9,7 @@ group :development, :test do
 	gem 'sqlite3'
 end
 
+gem 'rails_12factor'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.7'
 
