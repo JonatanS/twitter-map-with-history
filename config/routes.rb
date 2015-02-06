@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # get 'location_tweets/get_tweets'
   #get 'twitter_apps/index'
 
@@ -10,7 +11,7 @@ Rails.application.routes.draw do
   #   
   # end
 
-  get 'twitter_apps/(:id)' => 'twitter_apps#index'#, as: :twitter_apps
+  get 'twitter_apps/(:id)' => 'twitter_apps#index', as: :twitter_apps
 
   # get 'tweets_as_json/:lat,:lon,:topic,:radius', to: 'twitter_apps#get_tweets', as: :get_tweets
   get 'tweets_as_json/(:id)', to: 'twitter_apps#get_tweets', as: :get_tweets

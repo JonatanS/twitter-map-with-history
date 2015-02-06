@@ -1,0 +1,28 @@
+<h1>My Search History</h1>
+
+<table>
+	<thead>
+		<tr>
+			<td style="padding:0 10px 0 10px;">Last Search Date</td>
+		<td style="padding:0 10px 0 10px;">Search Term</td>
+		<td style="padding:0 10px 0 10px;">Address</td>
+		<td style="padding:0 10px 0 10px;">Radius</td>
+		<td style="padding:0 10px 0 10px;"># Results</td>
+		<td style="padding:0 10px 0 10px;">Repeat Search</td>
+	</tr>
+	</thead>
+
+	<tbody>
+		<%@search_histories.each do |h| %>
+			<tr>
+				<td style="padding:0 10px 0 10px;"><%= h.updated_at%></td>
+				<td style="padding:0 10px 0 10px;"><%= h.searchstring%></td>
+				<td style="padding:0 10px 0 10px;"><%= h.address%></td>
+				<td style="padding:0 10px 0 10px;"><%= h.radius%></td>
+				<td style="padding:0 10px 0 10px;"><%= h.num_results%></td>
+				<td style="padding:0 10px 0 10px;"><%= link_to "Search This", twitter_apps_path(:keyword => h.searchstring, :address => h.address, :radius => h.radius)%></td>
+			</tr>
+		<% end %>
+
+	</tbody>
+</table>
