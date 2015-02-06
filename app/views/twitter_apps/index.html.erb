@@ -1,4 +1,4 @@
-  
+<!-- <script type="text/javascript" src="/assets/utilities.js"></script> -->
 <h1> What and Where?</h1>
 
 <!--search field form to feed twitter_apps:-->
@@ -22,6 +22,9 @@
         $(function() {
           $( "#slider" ).slider({
             value: <%="#{@radius}"%>,
+            min: 10,
+            max: 2000,
+            step: 10,
             slide: function( event, ui ) {
               $( "#radius" ).val(ui.value);
             }
@@ -40,6 +43,42 @@
       <input type="text" id="from" name="from">
       <label for="to">to</label>
       <input type="text" id="to" name="to">
+      <script>
+      $(function() {
+        $( "#from" ).datepicker({
+          dateFormat: "yy-mm-dd",
+          minDate: '-7d',
+          maxDate: '-1d',
+          defaultDate: "-1d",
+          changeMonth: true,
+          numberOfMonths: 2,
+          onClose: function( selectedDate ) {
+            $( "#to" ).datepicker("option", "minDate", (selectedDate > defaultDate ? '0' : selectedDate));
+          },
+        });
+        $( "#to" ).datepicker({
+          dateFormat: "yy-mm-dd",
+          defaultDate: "0",
+          minDate: '-6d',
+          maxDate: '0',
+          changeMonth: true,
+          numberOfMonths: 2,
+          onClose: function( selectedDate ) {
+            //$( "#from" ).datepicker( "option", "maxDate", (selectedDate > defaultDate ? '-1d' : selectedDate) );
+            $( "#from" ).datepicker( "option", "maxDate", selectedDate);
+          }
+        });
+
+        // $("#slider").slider({ 
+        //  min: 10,
+        //  max: 2000,
+        //  step: 10,
+        //  //value: gon.radius
+        //  //value: 100
+        // });
+      });           
+
+      </script>
       <br>
       <input type="submit" value="Submit">
     </div>
