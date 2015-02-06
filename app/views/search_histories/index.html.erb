@@ -21,6 +21,7 @@
 				<td style="padding:0 10px 0 10px;"><%= h.radius%></td>
 				<td style="padding:0 10px 0 10px;"><%= h.num_results%></td>
 				<td style="padding:0 10px 0 10px;"><%= link_to "Search This", twitter_apps_path(:keyword => h.searchstring, :address => h.address, :radius => h.radius)%></td>
+				<td style="padding:0 10px 0 10px;"><%= link_to "Delete Entry", h, method: :delete, data: {confirm: "Are you sure?"}%></td>
 			</tr>
 		<% end %>
 

@@ -2,7 +2,6 @@ class TwitterAppsController < ApplicationController
   def index
 
     # SET DEFAULT VALUES FOR FIRST RUN
-
     @from_date = params[:from]
     @to_date = params[:to]
 
@@ -34,7 +33,6 @@ class TwitterAppsController < ApplicationController
     end
 
     @city_found = true
-
     #use geocoder to add city
     #@my_city = City.new({ :address => @city_to_lookup })
     s = Geocoder.search("#{@city_to_lookup}")
@@ -51,18 +49,22 @@ class TwitterAppsController < ApplicationController
       @city_found = false
     end
 
-
     #if user is logged in: save search history
     if signed_in? then
-      h = SearchHistory.new
-      h.searchstring = @topics
-      h.address = @city_to_lookup
-      h.radius = @radius
-      h.user = current_user
-      h.save
+      # see if search history exists already
+      h = SearchHistory.where(searchstring: @topics, address: @city_to_lookup, radius: @radius, user: current_user)
+      # binding.pry
+      if h[0].nil? then
+        h = SearchHistory.new
+        h.searchstring = @topics
+        h.address = @city_to_lookup
+        h.radius = @radius
+        h.user = current_user
+        h.save
+      end
     end
-  end
 
+  end
 
   def get_tweets
     @arr_tweets = []
@@ -72,6 +74,7 @@ class TwitterAppsController < ApplicationController
     @lat = params[:lat]
     @lon = params[:lon]
     @radius = params[:radius]
+    @city_to_lookup = params[:city]
 
     ##initLocation is used to center the map (and specify zoom level based on radius)
     initLocation = Location_Tweet.new("",@lat,@lon,"",@radius,"","")
@@ -83,7 +86,7 @@ class TwitterAppsController < ApplicationController
     @twitter_rest_client.search(@topics, result_type: "recent", geocode: "#{@lat },#{@lon},#{@radius}mi").take(100).each do |tweet|
 
         if (tweet.geo?) then
-          # everse engineer the address from the lat lon. This will quickly exceed geocoder limit. Better to do so if user requests it
+          # reverse engineer the address from the lat lon. This will quickly exceed geocoder limit. Better to do so if user requests it
           #s = Geocoder.search("#{tweet.geo.lat}, #{tweet.geo.long}")
           #puts s[0].address
         @arr_tweets<< Location_Tweet.new(tweet.text, tweet.geo.lat.to_f, tweet.geo.long.to_f, \
@@ -94,15 +97,15 @@ class TwitterAppsController < ApplicationController
 
     # add result stats to history
     if signed_in? then
-      h = SearchHistory.last
-      h.num_results = @arr_tweets.size - 1
+      h = SearchHistory.where(searchstring: @topics, address: @city_to_lookup, radius: @radius, user: current_user)
+
+      h[0].num_results = @arr_tweets.size - 1
       # h.num_images = @arr_tweets.select {|a| a.image_url != ""}.count
-      h.save
+      h[0].save
       puts "saved tweet count to search history: #{@arr_tweets.size - 1}"
     end
 
     render :json => @arr_tweets
-
   end
 
 

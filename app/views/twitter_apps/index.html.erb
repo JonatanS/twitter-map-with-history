@@ -13,14 +13,9 @@
   	Address to search:
   	<input type="text" value='<%="#{@city_to_lookup}"%>' name="address" >
   	</div>
-
-    <div>
-    Radius:
-    <input type="number" value'<%="#{@radius}"%>' id="radius" name="radius" maxlength="10" readonly style="border:0;  width:65px;">
-    </div>
     
     <div>
-      Search Radius (miles):
+      Search Radius:
       <span id="slider"></span>
       <script>
 
@@ -29,14 +24,13 @@
             value: <%="#{@radius}"%>,
             slide: function( event, ui ) {
               $( "#radius" ).val(ui.value);
-              //$( "#radius" ).val( $( "#slider" ).slider( "value" ));
-              // @radius = ui.value;
             }
           });
 
           $( "#radius" ).val( $( "#slider" ).slider( "value" ));
         });
       </script>
+      <input type="number" value'<%="#{@radius}"%> miles' id="radius" name="radius" maxlength="10" readonly style="border:0;  width:65px;">
     </div>
   
     <br>
@@ -83,7 +77,7 @@ var twitterResponse = [];
 <%# binding.pry %>
 <%#//= link_to 'Send Thanks', new_invoice_email_path(@invoice, :type => "thanks") %>
 $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longitude,
- :topic => @topics, :radius => @radius) %>', function(data) // Variable data contains the data we get from serverside
+ :topic => @topics, :radius => @radius, :city => @my_city.name) %>', function(data) // Variable data contains the data we get from serverside
 {
   twitterResponse = data;
 
