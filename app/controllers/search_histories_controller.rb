@@ -10,7 +10,7 @@ class SearchHistoriesController < ApplicationController
 		@history = SearchHistory.find_by_id(params[:id])
 		if !@history.nil? then
 			@history.destroy
-		flash[:info] = "Entry deleted" 
+		flash[:notice] = "Entry deleted" 
 		end
 		redirect_to :back
 	end
