@@ -10,13 +10,13 @@ class TwitterAppsController < ApplicationController
 
     # binding.pry
     if @radius == nil || @radius == "" then 
-      signed_in? ? @radius = SearchHistory.last.radius : @radius = '200'
+      signed_in? && !@search_histories.nil? ? @radius = @search_histories.last.radius : @radius = "200"
     end
 
     @topics = params[:keyword]
     #@city_name = params[:loc]
     if @topics == nil
-      signed_in? ? @topics = SearchHistory.last.searchstring : @topics = "coffee OR lunch"
+      signed_in? && !@search_histories.nil? > 0 ? @topics = @search_histories.last.searchstring : @topics = "coffee OR lunch"
     end
 
     if @from_date!="" && @from_date!=nil then
@@ -30,7 +30,7 @@ class TwitterAppsController < ApplicationController
     @city_to_lookup = params[:address]
     # binding.pry
     if @city_to_lookup == nil 
-      signed_in? ? @city_to_lookup = SearchHistory.last.address : @city_to_lookup = "New York, NY" 
+      signed_in? && !@search_histories.nil? > 0 ? @city_to_lookup = @search_histories.last.address : @city_to_lookup = "New York, NY" 
     end
 
     @city_found = true
