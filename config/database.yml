@@ -14,9 +14,11 @@ test:
 
 production:
   adapter: postgresql
-  database: treebook
-  pool: 5
-  timeout: 5000
+  host: ec2-54-243-245-159.compute-1.amazonaws.com
+  database: dbdpm67jo7ehku
+  username: rfrgqxulhbjnjx
+  password: ZJpB9BgB3PdoCSm3XlzANe5Pei
+  port: 5432
 
 # # SQLite version 3.x
 # #   gem install sqlite3
