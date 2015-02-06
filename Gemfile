@@ -41,7 +41,7 @@ gem 'pry-rails', group: :development
 
 gem 'geocoder'
 
-gem 'jquery-slick-rails', '~> 1.3.15'
+# gem 'jquery-slick-rails', '~> 1.3.15'
 
 gem 'devise'
 
