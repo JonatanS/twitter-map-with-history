@@ -9,13 +9,13 @@ class TwitterAppsController < ApplicationController
 
     # binding.pry
     if @radius == nil || @radius == "" then 
-      signed_in? && !@search_histories.nil? ? @radius = @search_histories.last.radius : @radius = "200"
+      signed_in? && !@search_histories.nil? ? @radius = @search_histories.last.radius : @radius = "400"
     end
 
     @topics = params[:keyword]
     #@city_name = params[:loc]
     if @topics == nil
-      signed_in? && !@search_histories.nil? ? @topics = @search_histories.last.searchstring : @topics = "coffee OR lunch"
+      signed_in? && !@search_histories.nil? ? @topics = @search_histories.last.searchstring : @topics = "earthquake -USGS OR flood"
     end
 
     if @from_date!="" && @from_date!=nil then
@@ -29,7 +29,7 @@ class TwitterAppsController < ApplicationController
     @city_to_lookup = params[:address]
     # binding.pry
     if @city_to_lookup == nil 
-      signed_in? && !@search_histories.nil? ? @city_to_lookup = @search_histories.last.address : @city_to_lookup = "New York, NY" 
+      signed_in? && !@search_histories.nil? ? @city_to_lookup = @search_histories.last.address : @city_to_lookup = "San Francisco, CA" 
     end
 
     @city_found = true
@@ -89,8 +89,10 @@ class TwitterAppsController < ApplicationController
           # reverse engineer the address from the lat lon. This will quickly exceed geocoder limit. Better to do so if user requests it
           #s = Geocoder.search("#{tweet.geo.lat}, #{tweet.geo.long}")
           #puts s[0].address
+
+
         @arr_tweets<< Location_Tweet.new(tweet.text, tweet.geo.lat.to_f, tweet.geo.long.to_f, \
-          "address tbd", tweet.retweeted? ? tweet.retweet_count : 0, tweet.created_at.to_datetime, tweet.media? ? tweet.media[0].media_url.to_s : "")
+          "address tbd", tweet.retweeted? ? tweet.retweet_count : 0, tweet.created_at.to_datetime.strftime('%m/%d | %R'), tweet.media? ? tweet.media[0].media_url.to_s : "")
       end
     end
     #@twitter_display = @arr_tweets

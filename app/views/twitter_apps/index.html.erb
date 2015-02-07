@@ -6,9 +6,9 @@
 	<fieldset id = 'input-fieldset'>
     <div>
      Search Phrase:
-     <input type="text" value='<%="#{@topics}"%>' name="keyword">
+     <input type="text" value='<%="#{@topics}"%>' name="keyword" style="width:350px;">
     </div>
-
+    <p>query options: "exact phrase", flood OR damage (containing either flood or damage), flood damage (containing both flood and damage), <a href="https://dev.twitter.com/rest/public/search" target="_blank">more</a> </p>
     <div>
   	Address to search:
   	<input type="text" value='<%="#{@city_to_lookup}"%>' name="address" >
@@ -96,9 +96,10 @@
     <thead id = "table-head">
       <tr>
         <th WIDTH = "3%">#</th>
+        <th WIDTH = "8%">Date | Time</th>
         <th WIDTH = "6%">Location</th>
-        <th WIDTH = "16%">Address</th>
-        <th WIDTH = "75%">Tweet Message</th>
+        <th WIDTH = "15%">Address</th>
+        <th WIDTH = "68%">Tweet Message</th>
         <th colspan="20"></th>
       </tr>
     </thead>
@@ -158,9 +159,15 @@ $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longi
         var td = document.createElement('TD');
         //ID
         td.appendChild(document.createTextNode(i.toString()));
-        td.setAttribute('WIDTH', '30')
+        //td.setAttribute('WIDTH', '30')
         tr.appendChild(td);
         
+        //Date/Time
+        td = document.createElement('TD');
+        td.appendChild(document.createTextNode(twitterResponse[i].date_time));
+        //td.setAttribute('WIDTH', '30')
+        tr.appendChild(td);
+
         //Location
         var link = document.createElement("A");
         link.setAttribute('href','http://maps.google.com/?q=' + twitterResponse[i].latitute+ ',' + twitterResponse[i].longitude);
@@ -168,12 +175,12 @@ $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longi
         link.text='open map'; 
         td = document.createElement('TD');
         td.appendChild(link);
-        td.setAttribute('WIDTH', '80')
+        //td.setAttribute('WIDTH', '80')
         tr.appendChild(td);
         //Longitude 
         td = document.createElement('TD');
         td.appendChild(document.createTextNode(twitterResponse[i].latitute+','+twitterResponse[i].longitude));
-        td.setAttribute('WIDTH', '200')
+        //td.setAttribute('WIDTH', '200')
         tr.appendChild(td);
         //message 
         td = document.createElement('TD');

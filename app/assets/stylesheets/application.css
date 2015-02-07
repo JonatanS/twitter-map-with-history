@@ -46,7 +46,7 @@ h1 {
 }
 
 #table{
-    font-size: 1em;
+    font-size: 1.2em;*/
     padding: 3px 7px 2px 7px;
     /*font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;*/
     width: 100%;
@@ -57,7 +57,7 @@ h1 {
 
 /*Table Header:*/
 #tweets-table th {
-    font-size: 1.1em;
+    font-size: 1.2em;
     text-align: left;
     padding-top: 5px;
     padding-bottom: 4px;
@@ -135,6 +135,11 @@ input {
 }
 input:focus {
     border-color: #339933;
+}
+
+#input-fieldset p {
+  font-size: 10px;
+  color: #1c1c1c;
 }
 
 /*change size of datepicker*/
