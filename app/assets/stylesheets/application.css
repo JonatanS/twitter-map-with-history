@@ -24,7 +24,7 @@ body{
 
 /*change look of input form here*/
 #input-fieldset {
-  color: rgb(229,87,0); /*hot pink*/
+  color: rgb(229,87,0); /*TT orange*/
   font-family: 'Open Sans', sans-serif; 
   font-size: 20px; 
   font-weight: 300; 
@@ -43,6 +43,13 @@ h1 {
   line-height: 1; 
   text-align: center;     
   /*text-transform: uppercase;*/
+}
+
+input[type=submit] {
+  width: 7em;  
+  height: 2.3em;
+  color: rgb(229,87,0); /*TT orange*/
+  background-color: #d3d3d3;
 }
 
 #table{

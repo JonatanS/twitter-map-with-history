@@ -35,8 +35,7 @@
       </script>
       <input type="number" value'<%="#{@radius}"%> miles' id="radius" name="radius" maxlength="10" readonly style="border:0;  width:65px;">
     </div>
-  
-    <br>
+
     <div>
       Optional Date Range:
       <class="texthover" title="Twitter only allows for searches up to 7 days ago." ><label for="from">from</label>
@@ -92,13 +91,14 @@
 <div id="image-reel"></div>
 
 <div id ="table" style="height:200px;overflow:auto;width:100%">
-  <table id="tweets-table">
+  <!--<table id="tweets-table" class = "sortable">-->
+  <table id="tweets-table" class = "sortable">
     <thead id = "table-head">
       <tr>
-        <th WIDTH = "3%">#</th>
+        <th WIDTH = "3%"></th>
         <th WIDTH = "8%">Date | Time</th>
-        <th WIDTH = "6%">Location</th>
-        <th WIDTH = "15%">Address</th>
+        <th WIDTH = "7%">Location</th>
+        <th WIDTH = "14%">Address</th>
         <th WIDTH = "68%">Tweet Message</th>
         <th colspan="20"></th>
       </tr>
@@ -109,10 +109,6 @@
 </div>
 
 <script type="text/javascript">
-////TODO:
-//populate google map here
-
-
 var twitterResponse = [];
 <%# binding.pry %>
 <%#//= link_to 'Send Thanks', new_invoice_email_path(@invoice, :type => "thanks") %>
@@ -157,15 +153,17 @@ $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longi
       else{ tr.className = "odd"; }
 
         var td = document.createElement('TD');
-        //ID
-        td.appendChild(document.createTextNode(i.toString()));
-        //td.setAttribute('WIDTH', '30')
+        //checkbox
+        var box = document.createElement("INPUT");
+        box.setAttribute("type", "checkbox");
+        box.id = "checkbox_" + i.toString();
+        td.appendChild(box);
+        // td.appendChild(document.createTextNode(i.toString()));
         tr.appendChild(td);
         
         //Date/Time
         td = document.createElement('TD');
         td.appendChild(document.createTextNode(twitterResponse[i].date_time));
-        //td.setAttribute('WIDTH', '30')
         tr.appendChild(td);
 
         //Location
@@ -175,18 +173,29 @@ $.getJSON('<%= get_tweets_path(:lat => @my_city.latitude, :lon => @my_city.longi
         link.text='open map'; 
         td = document.createElement('TD');
         td.appendChild(link);
-        //td.setAttribute('WIDTH', '80')
         tr.appendChild(td);
         //Longitude 
         td = document.createElement('TD');
         td.appendChild(document.createTextNode(twitterResponse[i].latitute+','+twitterResponse[i].longitude));
-        //td.setAttribute('WIDTH', '200')
         tr.appendChild(td);
-        //message 
-        td = document.createElement('TD');
-        td.appendChild(document.createTextNode(twitterResponse[i].message));
-        tr.appendChild(td);
+        // td = document.createElement('TD');
+        // tr.appendChild(td);
       
+        //message 
+        td = document.createElement('TD');        
+        td.appendChild(document.createTextNode(twitterResponse[i].message));
+
+        //image link 
+        if(twitterResponse[i].image_url.toString()!="")
+        {
+          var imageLink = document.createElement("A");
+          imageLink.setAttribute('href', twitterResponse[i].image_url.toString());
+          imageLink.setAttribute('target', '_blank');
+          imageLink.text = ' : view image';
+          td.appendChild(imageLink);
+        }
+        tr.appendChild(td);
+
         tableBody.appendChild(tr);
       } 
     }

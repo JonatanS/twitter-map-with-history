@@ -106,8 +106,8 @@ class TwitterAppsController < ApplicationController
       h[0].save
       puts "saved tweet count to search history: #{@arr_tweets.size - 1}"
     end
-
-    render :json => @arr_tweets
+    @arr_tweets.sort_by { |h| h.date_time}
+    render :json => @arr_tweets#.sort_by { |h| h.date_time}.reverse!
   end
 
 
