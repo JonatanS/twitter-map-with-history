@@ -2,7 +2,7 @@
 This project was created in order to learn about backend web development, using Ruby and Ruby on Rails.
 
 ==Demo
-http://tttwitter.herokuapp.com/
+http://tttwitter.herokuapp.com
 
 == Environment
 * Ruby 2
